@@ -53,6 +53,11 @@ output "common_tag_value" {
   value       = var.demo_id
 }
 
+output "resource_group_name" {
+  description = "Name of the AWS Resource Group containing all demo resources"
+  value       = aws_resourcegroups_group.main.name
+}
+
 output "aws_region" {
   description = "AWS region where resources are deployed"
   value       = var.aws_region

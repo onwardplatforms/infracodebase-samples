@@ -1,4 +1,29 @@
 #------------------------------------------------------------------------------
+# Resource Group (tag-based, similar to Azure Resource Groups)
+#------------------------------------------------------------------------------
+
+resource "aws_resourcegroups_group" "main" {
+  name        = "${local.name_prefix}-resources"
+  description = "All resources for demo environment ${var.demo_id}"
+
+  resource_query {
+    query = jsonencode({
+      ResourceTypeFilters = ["AWS::AllSupported"]
+      TagFilters = [
+        {
+          Key    = "infracodebase_demo"
+          Values = [var.demo_id]
+        }
+      ]
+    })
+  }
+
+  tags = {
+    Name = "${local.name_prefix}-resources"
+  }
+}
+
+#------------------------------------------------------------------------------
 # Data Sources
 #------------------------------------------------------------------------------
 
