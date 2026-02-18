@@ -1,0 +1,13 @@
+# Copy this file to terraform.tfvars and customize
+
+# Required: Unique identifier for this demo (must match your other stacks)
+demo_id = "mytest"
+
+# Optional: AWS region (default: us-east-1)
+# aws_region = "us-east-1"
+
+# Optional: Custom S3 bucket name (default: demo-<demo_id>-terraform-state)
+# bucket_name = "my-custom-state-bucket"
+
+# Optional: Custom DynamoDB table name (default: demo-<demo_id>-terraform-locks)
+# dynamodb_table_name = "my-custom-lock-table"
