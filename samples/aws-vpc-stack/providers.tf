@@ -6,7 +6,8 @@ provider "aws" {
       infracodebase_demo = var.demo_id
       project            = "samples-aws-vpc-stack"
       managed_by         = "terraform"
-      environment        = "demo"
+      environment        = "development"
+      purpose            = "demo"
     }
   }
 }

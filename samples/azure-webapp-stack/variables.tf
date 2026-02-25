@@ -1,0 +1,21 @@
+variable "demo_id" {
+  description = "Unique identifier for this demo environment (used in naming and tagging)"
+  type        = string
+  default     = "infra"
+
+  validation {
+    condition     = can(regex("^[a-z0-9-]+$", var.demo_id))
+    error_message = "demo_id must contain only lowercase letters, numbers, and hyphens."
+  }
+}
+
+variable "azure_location" {
+  description = "Azure region to deploy resources"
+  type        = string
+  default     = "westus2"
+}
+
+variable "bootstrap_key_vault_id" {
+  description = "Resource ID of the Key Vault from azure-bootstrap (for storing secrets)"
+  type        = string
+}

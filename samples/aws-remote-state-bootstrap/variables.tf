@@ -7,6 +7,7 @@ variable "aws_region" {
 variable "demo_id" {
   description = "Unique identifier for this demo environment (used in naming and tagging)"
   type        = string
+  default     = "infra"
 
   validation {
     condition     = can(regex("^[a-z0-9-]+$", var.demo_id))

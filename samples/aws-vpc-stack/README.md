@@ -73,30 +73,24 @@ Use cases include demonstrating:
 ### Deploy
 
 ```bash
-# Standard deployment (public EC2, free tier eligible)
-DEMO_ID=mytest ./demo.sh up
+# From repo root
+make aws-vpc
 
-# Production-like deployment (private EC2 with NAT Gateway, ~$32/mo)
-DEMO_ID=mytest EC2_PUBLIC_ACCESS=false ./demo.sh up
-
-# Minimal deployment (no RDS)
-DEMO_ID=mytest CREATE_RDS=false ./demo.sh up
+# Or directly
+cd samples/aws-vpc-stack
+terraform init && terraform apply
 ```
 
 ### Connect to EC2
 
 ```bash
-# Via helper script
-DEMO_ID=mytest ./demo.sh connect
-
-# Or directly with AWS CLI
 aws ssm start-session --target <instance-id> --region us-east-1
 ```
 
 ### Destroy
 
 ```bash
-DEMO_ID=mytest ./demo.sh down
+make aws-vpc-destroy
 ```
 
 ## Configuration
@@ -141,7 +135,8 @@ All resources are tagged for easy identification:
 | `infracodebase_demo` | `<your-demo-id>` |
 | `project` | `samples-aws-vpc-stack` |
 | `managed_by` | `terraform` |
-| `environment` | `demo` |
+| `environment` | `development` |
+| `purpose` | `demo` |
 
 ### Finding Resources in AWS Console
 

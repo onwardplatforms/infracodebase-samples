@@ -16,7 +16,4 @@ locals {
     "${local.vpc_cidr_prefix}.11.0/24",
   ]
 
-  common_tags = {
-    infracodebase_demo = var.demo_id
-  }
 }
