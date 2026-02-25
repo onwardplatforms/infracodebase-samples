@@ -19,3 +19,8 @@ variable "bootstrap_key_vault_id" {
   description = "Resource ID of the Key Vault from azure-bootstrap (for storing secrets)"
   type        = string
 }
+
+variable "terraform_sp_client_id" {
+  description = "Application (client) ID of the Terraform service principal to grant access to resources"
+  type        = string
+}

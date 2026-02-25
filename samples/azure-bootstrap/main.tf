@@ -4,6 +4,10 @@
 
 data "azurerm_client_config" "current" {}
 
+data "azuread_service_principal" "terraform" {
+  client_id = var.terraform_sp_client_id
+}
+
 #------------------------------------------------------------------------------
 # Resource Group
 #------------------------------------------------------------------------------
@@ -44,21 +48,25 @@ resource "azurerm_role_assignment" "deployer_blob_contributor" {
 }
 
 #------------------------------------------------------------------------------
-# RBAC: Grant additional principals access to state storage and Key Vault
+# RBAC: Grant the Terraform SP access to manage resources, state, and secrets
 #------------------------------------------------------------------------------
 
-resource "azurerm_role_assignment" "additional_blob_contributor" {
-  for_each             = toset(var.additional_principal_ids)
-  scope                = azurerm_storage_account.state.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = each.value
+resource "azurerm_role_assignment" "terraform_sp_rg_contributor" {
+  scope                = azurerm_resource_group.main.id
+  role_definition_name = "Contributor"
+  principal_id         = data.azuread_service_principal.terraform.object_id
 }
 
-resource "azurerm_role_assignment" "additional_kv_secrets_officer" {
-  for_each             = toset(var.additional_principal_ids)
+resource "azurerm_role_assignment" "terraform_sp_blob_contributor" {
+  scope                = azurerm_storage_account.state.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azuread_service_principal.terraform.object_id
+}
+
+resource "azurerm_role_assignment" "terraform_sp_kv_secrets_officer" {
   scope                = azurerm_key_vault.main.id
   role_definition_name = "Key Vault Secrets Officer"
-  principal_id         = each.value
+  principal_id         = data.azuread_service_principal.terraform.object_id
 }
 
 #------------------------------------------------------------------------------

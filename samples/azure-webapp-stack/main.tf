@@ -1,4 +1,12 @@
 #------------------------------------------------------------------------------
+# Data Sources
+#------------------------------------------------------------------------------
+
+data "azuread_service_principal" "terraform" {
+  client_id = var.terraform_sp_client_id
+}
+
+#------------------------------------------------------------------------------
 # Resource Group
 #------------------------------------------------------------------------------
 
@@ -6,6 +14,16 @@ resource "azurerm_resource_group" "main" {
   name     = local.rg_name
   location = var.azure_location
   tags     = local.common_tags
+}
+
+#------------------------------------------------------------------------------
+# RBAC: Grant the Terraform SP Contributor on the resource group
+#------------------------------------------------------------------------------
+
+resource "azurerm_role_assignment" "terraform_sp_rg_contributor" {
+  scope                = azurerm_resource_group.main.id
+  role_definition_name = "Contributor"
+  principal_id         = data.azuread_service_principal.terraform.object_id
 }
 
 #------------------------------------------------------------------------------

@@ -15,8 +15,7 @@ variable "azure_location" {
   default     = "eastus"
 }
 
-variable "additional_principal_ids" {
-  description = "Object IDs of additional principals (e.g. CI/CD service principals) to grant access to state storage and Key Vault"
-  type        = list(string)
-  default     = []
+variable "terraform_sp_client_id" {
+  description = "Application (client) ID of the Terraform service principal to grant access to resources"
+  type        = string
 }
